@@ -74,8 +74,13 @@ const addTour = (req, res) => {
     }
   );
 };
-app.route("/api/v1/tour").get(getTour).post(addTour);
-app.route("/api/v1/tour/:id").get(getTourById).patch(updateTour);
+// Creating a sub router for specific use case
+
+const tourRouter = express.Router(); // Initializing the router as a "MMiddleware"
+app.use("/api/v1/tour", tourRouter); // Setting the rout to the default url for all tour related queries
+
+tourRouter.route("/").get(getTour).post(addTour);
+tourRouter.route("/:id").get(getTourById).patch(updateTour);
 // app.get("/api/v1/tour", getTour);
 // app.post("/api/v1/tour", addTour);
 // app.get("/api/v1/tour/:id", getTourById);
