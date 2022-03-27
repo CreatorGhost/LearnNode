@@ -5,7 +5,7 @@ const tourController = require("../controllers/tourController");
 
 const router = express.Router(); // Initializing the router as a "Middleware"
 //app.use("/api/v1/tour", router); // Setting the rout to the default url for all tour related queries
-
+router.param("id", tourController.checkId);
 router.route("/").get(tourController.getTour).post(tourController.addTour);
 router
   .route("/:id")

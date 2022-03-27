@@ -4,7 +4,7 @@ const morgan = require("morgan");
 // Importing Routers from Route Folder
 const tourRouter = require("./routes/tourRoutes");
 const userRouter = require("./routes/userRouter");
-
+console.log(`Our Server is running at port ${process.env.PORT}`);
 const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
@@ -17,6 +17,4 @@ app.use((req, res, next) => {
 app.use("/api/v1/tour", tourRouter);
 app.use("/api/v1/user", userRouter);
 
-// Code for running the server
-const port = 4000;
-app.listen(port, () => console.log(`App running on ${port}`));
+module.exports = app;

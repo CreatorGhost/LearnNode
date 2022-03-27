@@ -13,36 +13,31 @@ const getTour = (req, res) => {
     data: { tours: tour_json },
   });
 };
-
-const getTourById = (req, res) => {
+const checkId = (req, res, next, val) => {
+  console.log(`In th middle ware with id  ${val}`);
   if (req.params.id >= tour_json.length) {
-    res.status(404).json({
+    return res.status(404).json({
       status: "Failed",
       message: "Given Id Not Found !!",
     });
-  } else {
-    const id_data = tour_json[req.params.id];
-    res.status(200).json({
-      status: "Success",
-      data: id_data,
-    });
   }
+  next();
+};
+const getTourById = (req, res) => {
+  const id_data = tour_json[req.params.id];
+  res.status(200).json({
+    status: "Success",
+    data: id_data,
+  });
 };
 const updateTour = (req, res) => {
-  if (req.params.id >= tour_json.length) {
-    res.status(404).json({
-      status: "Failed",
-      message: "Given Id Not Found !!",
-    });
-  } else {
-    const oldData = tour_json.find((el) => el.id === req.params.id * 1);
-    const id_data = { ...oldData, ...req.body };
-    tour_json[req.params.id] = id_data;
-    res.status(200).json({
-      status: "Success",
-      data: id_data,
-    });
-  }
+  const oldData = tour_json.find((el) => el.id === req.params.id * 1);
+  const id_data = { ...oldData, ...req.body };
+  tour_json[req.params.id] = id_data;
+  res.status(200).json({
+    status: "Success",
+    data: id_data,
+  });
 };
 const addTour = (req, res) => {
   // Get the last id
@@ -70,4 +65,5 @@ module.exports = {
   updateTour,
   getTourById,
   getTour,
+  checkId,
 };
